@@ -1,1 +1,14 @@
-public doctor
+public class Doctor
+{
+	public string Name { get; set; }
+	public string specialization { get; set; }
+	public int ID { get; set; }
+
+	public Doctor(string Name, string specialization, int ID)
+	{
+		this.Name = Name;
+		this.specialization = specialization;
+		this.ID = ID;
+
+	}
+}
