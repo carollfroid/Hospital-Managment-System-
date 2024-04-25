@@ -1,14 +1,127 @@
-public class Doctor
-{
-	public string Name { get; set; }
-	public string specialization { get; set; }
-	public int ID { get; set; }
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-	public Doctor(string Name, string specialization, int ID)
-	{
-		this.Name = Name;
-		this.specialization = specialization;
-		this.ID = ID;
 
-	}
-}
+    internal class PROGRAM
+    {
+    public class person
+    {
+        public string name {get; set;}
+        public int age { get; set; }
+        public int id { get; set; }
+        public char gender { get; set; }
+
+        public person(string name, int age, int id, char gender)
+        {
+            this.name = name;
+            this.age = age;
+            this.id = id;
+            this.gender = gender;
+        }
+         virtual public float bills(float rate, int days)
+        {
+            return rate * days;
+        }
+        virtual public  float hourlysalary(float rate, int hourly) // rate depends on the role
+        {
+            return rate * hourly;
+        }
+        virtual public void ScheduleAppointment(int id,int date,string Doctor) // send appointment to patient
+        {
+            
+        }
+        virtual public void CancelAppointment(int id) // cancel the appointment
+        {
+
+        }
+      virtual public void shift(string day, int hours) // Doctors, reseptionist,nurses shift
+        { 
+
+        }
+    }
+    public class patient: person
+    {
+        public string sickness { get; set;}
+        public patient(string sickness,int id,int age, string name,char gender) :base(name, id, age, gender)
+        {
+            this.sickness = sickness;
+        }
+    }
+    public class Doctor: person
+    {
+       
+        public string specialization { get; set; }
+        public int experience { get; set; }
+
+
+        public  Doctor(string specialization,int experience,int id,int age, string name, char gender ): base(name,id,age,gender)
+        {
+            this.specialization = specialization;
+            this.experience = experience;
+        }
+        public void prescription(string name, int id) // prescription written to the patient
+        {
+           
+        }
+        public void tests(string name, int id)
+        {
+
+        }
+
+    }
+    public class lab
+    {
+
+    }
+   public class Appointment : person
+    {
+        int time { get; set; }
+        int date { get; set; }
+
+        public Appointment(string patient,string doctor,int date,int id,int time ,int age, string name, char gender) : base(name, id, age, gender)
+        {
+            this.date = date;
+            this.time = time;
+        }
+    }
+   public class frontdeskstaff 
+    {
+        public void register()      //inherit data from patient
+        {
+
+        }
+        public float bills(float rate,int days)
+        {
+            return rate * days;
+        }
+        public void appointments()    //update dr's schedule & send time,room to patient
+        {
+
+        }
+        public void emergency() //attend to emergency (send to ambulances)
+        {
+
+        }
+
+    }
+    public class ambulances
+    {
+       public int cars { get; set; }
+       public string shifts { get; set; }
+      public int time { get; set; }
+    }
+    public class Nurse : person
+    {
+        public Nurse(int age, string name, char gender, int id) : base(name, id, age, gender)
+     {
+
+        }
+    }
+    static void Main(string[] args)
+        {
+        }
+    }
+
