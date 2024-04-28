@@ -21,7 +21,7 @@ using System.Threading.Tasks;
             this.id = id;
             this.gender = gender;
         }
-         virtual public float bills(float rate, int days)
+         virtual public float bills(float rate, int days,DateTime DueDate)
         {
             return rate * days;
         }
