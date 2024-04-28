@@ -120,6 +120,32 @@ using System.Threading.Tasks;
 
         }
     }
+ class room
+{
+    public int RoomNumber { get; set; }
+    public int capacity { get; set; }
+    public List<patient> Patients { get; } = new List<patient>();
+
+    public room(int RoomNumber,int capacity) 
+    {
+        this.RoomNumber = RoomNumber;
+        this.capacity = capacity;
+    }
+    public void AssignPatient(patient patient)
+    {
+        if (patient.count < capacity)
+        {
+            Patients.Add(patient);
+            Console.WriteLine($"Patient {patient.name} assigned to room {RoomNumber}");
+        }
+        else
+        {
+            Console.WriteLine($"Room {RoomNumber} is already full");
+        }
+    }
+
+
+}
     static void Main(string[] args)
         {
         }
