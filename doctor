@@ -68,7 +68,7 @@ internal class PROGRAM
             return base.bills(rate, days);
         }
     }
-    public class Doctor : person
+    public class Doctor : person , IAppointmentManager
     {
 
         public string specialization { get; set; }
@@ -79,6 +79,15 @@ internal class PROGRAM
         {
             this.specialization = specialization;
             this.experience = experience;
+        }
+        public void ScheduleAppointment(DateTime dateTime, string patientName, string doctorName)
+        {
+            Console.WriteLine($"Appointment scheduled by {name}: {dateTime} - Patient: {patientName}, Doctor: {doctorName}");
+        }
+
+        public void CancelAppointment(DateTime dateTime, string patientName, string doctorName)
+        {
+            Console.WriteLine($"Appointment canceled by {name}: {dateTime} - Patient: {patientName}, Doctor: {doctorName}");
         }
         public override void DisplayInformation()
         {
@@ -97,7 +106,12 @@ internal class PROGRAM
         }
 
     }
-   
+    public interface IAppointmentManager
+    {
+        void ScheduleAppointment(DateTime dateTime, string patientName, string doctorName);
+        void CancelAppointment(DateTime dateTime, string patientName, string doctorName);
+    }
+
     public class Appointment 
 
     {
@@ -110,7 +124,8 @@ internal class PROGRAM
             this.time = time;
         }
     }
-    public class frontdeskstaff : person
+    
+    public class frontdeskstaff : person , IAppointmentManager 
     {
         public string department;
         public frontdeskstaff(int id, int age, string name, char gender) :base(name, id, age, gender)
@@ -122,6 +137,15 @@ internal class PROGRAM
             Console.WriteLine($"Age: {age}");
             Console.WriteLine($"Gender: {gender}");
             Console.WriteLine($"Department: {department}");
+        }
+        public void ScheduleAppointment(DateTime dateTime, string patientName, string doctorName)
+        {
+            Console.WriteLine($"Appointment scheduled by Receptionist: {dateTime} - Patient: {patientName}, Doctor: {doctorName}");
+        }
+
+        public void CancelAppointment(DateTime dateTime, string patientName, string doctorName)
+        {
+            Console.WriteLine($"Appointment canceled by Receptionist: {dateTime} - Patient: {patientName}, Doctor: {doctorName}");
         }
         public void register()      //inherit data from patient
         {
