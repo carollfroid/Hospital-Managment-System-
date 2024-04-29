@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using static PROGRAM;
 
 
-    internal class PROGRAM
+internal class PROGRAM
+{
+    public abstract class person
     {
-    public class person
-    {
-        public string name {get; set;}
+        public string name { get; set; }
         public int age { get; set; }
         public int id { get; set; }
         public char gender { get; set; }
+        public int count { get; set; }
 
         public person(string name, int age, int id, char gender)
         {
@@ -20,51 +23,73 @@ using System.Threading.Tasks;
             this.age = age;
             this.id = id;
             this.gender = gender;
+            this.count = count;
+    }
+        public virtual void DisplayInformation()
+        {
+
         }
-         virtual public float bills(float rate, int days,DateTime DueDate)
+
+        virtual public float bills(float rate, int days)
         {
             return rate * days;
         }
-        virtual public  float hourlysalary(float rate, int hourly) // rate depends on the role
+        virtual public float hourlysalary(float rate, int hourly) // rate depends on the role
         {
             return rate * hourly;
         }
-        virtual public void ScheduleAppointment(int id,int date,string Doctor) // send appointment to patient
+        virtual public void ScheduleAppointment(int id, int date, string Doctor) // send appointment to patient
         {
-            
+
         }
         virtual public void CancelAppointment(int id) // cancel the appointment
         {
 
         }
-      virtual public void shift(string day, int hours) // Doctors, reseptionist,nurses shift
-        { 
+        virtual public void shift(string day, int hours) // Doctors, reseptionist,nurses shift
+        {
 
         }
     }
-    public class patient: person
+    public class patient : person
     {
-        public string sickness { get; set;}
-        public patient(string sickness,int id,int age, string name,char gender) :base(name, id, age, gender)
+        public string sickness { get; set; }
+        public patient(string sickness, int id, int age, string name, char gender) : base(name, id, age, gender)
         {
             this.sickness = sickness;
         }
+
+        public override void ScheduleAppointment(int id, int date, string Doctor)
+        {
+            base.ScheduleAppointment(id, date, Doctor);
+        }
+        public override float bills(float rate, int days)
+        {
+            return base.bills(rate, days);
+        }
     }
-    public class Doctor: person
+    public class Doctor : person
     {
-       
+
         public string specialization { get; set; }
         public int experience { get; set; }
 
 
-        public  Doctor(string specialization,int experience,int id,int age, string name, char gender ): base(name,id,age,gender)
+        public Doctor(string specialization, int experience, int id, int age, string name, char gender) : base(name, id, age, gender)
         {
             this.specialization = specialization;
             this.experience = experience;
         }
+        public override void DisplayInformation()
+        {
+            Console.WriteLine($"Doctor Name: {name}");
+            Console.WriteLine($"Age: {age}");
+            Console.WriteLine($"Gender: {gender}");
+            Console.WriteLine($"Specialization: {specialization}");
+        }
         public void prescription(string name, int id) // prescription written to the patient
         {
-           
+
         }
         public void tests(string name, int id)
         {
@@ -72,28 +97,37 @@ using System.Threading.Tasks;
         }
 
     }
-    public class lab
-    {
+   
+    public class Appointment 
 
-    }
-   public class Appointment : person
     {
         int time { get; set; }
         int date { get; set; }
 
-        public Appointment(string patient,string doctor,int date,int id,int time ,int age, string name, char gender) : base(name, id, age, gender)
+        public Appointment(string patient, string doctor, int date, int id, int time, int age, string name, char gender)
         {
             this.date = date;
             this.time = time;
         }
     }
-   public class frontdeskstaff 
+    public class frontdeskstaff : person
     {
+        public string department;
+        public frontdeskstaff(int id, int age, string name, char gender) :base(name, id, age, gender)
+        {
+        }
+        public override void DisplayInformation()
+        {
+            Console.WriteLine($"Administrator Name: {name}");
+            Console.WriteLine($"Age: {age}");
+            Console.WriteLine($"Gender: {gender}");
+            Console.WriteLine($"Department: {department}");
+        }
         public void register()      //inherit data from patient
         {
 
         }
-        public float bills(float rate,int days)
+        public float bills(float rate, int days,DateTime DueDate)
         {
             return rate * days;
         }
@@ -109,45 +143,52 @@ using System.Threading.Tasks;
     }
     public class ambulances
     {
-       public int cars { get; set; }
-       public string shifts { get; set; }
-      public int time { get; set; }
+        public int cars { get; set; }
+        public string shifts { get; set; }
+        public int time { get; set; }
     }
     public class Nurse : person
     {
-        public Nurse(int age, string name, char gender, int id) : base(name, id, age, gender)
-     {
-
-        }
-    }
- class room
-{
-    public int RoomNumber { get; set; }
-    public int capacity { get; set; }
-    public List<patient> Patients { get; } = new List<patient>();
-
-    public room(int RoomNumber,int capacity) 
-    {
-        this.RoomNumber = RoomNumber;
-        this.capacity = capacity;
-    }
-    public void AssignPatient(patient patient)
-    {
-        if (patient.count < capacity)
+        public string department;
+        public Nurse(string department,int age, string name, char gender, int id) : base(name, id, age, gender)
         {
-            Patients.Add(patient);
-            Console.WriteLine($"Patient {patient.name} assigned to room {RoomNumber}");
+
         }
-        else
+        public override void DisplayInformation()
         {
-            Console.WriteLine($"Room {RoomNumber} is already full");
+            Console.WriteLine($"Nurse Name: {name}");
+            Console.WriteLine($"Age: {age}");
+            Console.WriteLine($"Gender: {gender}");
+            Console.WriteLine($"Department: {department}");
         }
     }
+     class room
+    {
+        public int RoomNumber { get; set; }
+        public int capacity { get; set; }
+        public List<patient> Patients { get; } = new List<patient>();
+
+        public room(int RoomNumber,int capacity) 
+        {
+            this.RoomNumber = RoomNumber;
+            this.capacity = capacity;
+        }
+        public void AssignPatient(patient patient)
+        {
+            if (patient.count < capacity)
+            {
+                Patients.Add(patient);
+                Console.WriteLine($"Patient {patient.name} assigned to room {RoomNumber}");
+            }
+            else
+            {
+                Console.WriteLine($"Room {RoomNumber} is already full");
+            }
+        }
 
 
-}
+    }
     static void Main(string[] args)
-        {
-        }
+    {
     }
-
+}
